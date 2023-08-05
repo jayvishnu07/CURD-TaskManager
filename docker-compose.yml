@@ -1,0 +1,99 @@
+# version: '3.8'
+
+# services:
+#   frontend:
+#     build:
+#       context: .
+#       dockerfile: frontend/Dockerfile
+#     ports:
+#       - "80:80"
+#     networks:
+#       - my-network
+
+#   database:
+#     image: postgres:latest
+#     environment:
+#       POSTGRES_USER: jaivishnu
+#       POSTGRES_PASSWORD: jaivishnu
+#       POSTGRES_DB: crudapplication
+#     ports:
+#       - "5430:5432"
+#     networks:
+#       - my-network
+
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: backend/Dockerfile
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - database
+#     environment:
+#       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/crudapplication
+#       - SPRING_DATASOURCE_USERNAME=jaivishnu
+#       - SPRING_DATASOURCE_PASSWORD=jaivishnu
+#     networks:
+#       - my-network
+
+#   nginx:
+#     image: nginx:latest
+#     volumes:
+#       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+#       - ./nginx/ssl/self-signed.crt:/etc/nginx/ssl/self-signed.crt:ro
+#       - ./nginx/ssl/self-signed.key:/etc/nginx/ssl/self-signed.key:ro
+#       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+#     ports:
+#       - "443:443"
+#     networks:
+#       - my-network
+
+# volumes:
+#   postgres-data:
+
+# networks:
+#   my-network:
+
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "443:443"
+    networks:
+      - my-network
+
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: jaivishnu
+      POSTGRES_PASSWORD: jaivishnu
+      POSTGRES_DB: crudapplication
+    ports:
+      - "5430:5432"
+    networks:
+      - my-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8443:8443"
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/crudapplication
+      - SPRING_DATASOURCE_USERNAME=jaivishnu
+      - SPRING_DATASOURCE_PASSWORD=jaivishnu
+    networks:
+      - my-network
+volumes:
+  postgres-data:
+
+
+networks:
+  my-network:

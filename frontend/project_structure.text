@@ -1,0 +1,97 @@
+- .DS_Store
+- .dockerignore
+- .gitignore
+- Dockerfile
+- Notes.txt
+- README.md
+- build
+  - .DS_Store
+  - asset-manifest.json
+  - index.html
+  - logo192.png
+  - logo512.png
+  - manifest.json
+  - robots.txt
+  - static
+    - css
+      - main.5aa6c89f.css
+      - main.5aa6c89f.css.map
+    - js
+      - main.03b69ed5.js
+      - main.03b69ed5.js.LICENSE.txt
+      - main.03b69ed5.js.map
+    - media
+      - login_image.c8b0cc3a244a304491ed.webp
+  - task.webp
+- nginx
+  - Dockerfile
+  - nginx.conf
+  - ssl
+    - localhost-key.pem
+    - localhost.pem
+    - self-signed.crt
+    - self-signed.key
+- package-lock.json
+- package.json
+- project_structure.text
+- public
+  - .DS_Store
+  - index.html
+  - logo192.png
+  - logo512.png
+  - manifest.json
+  - robots.txt
+  - task.webp
+- src
+  - APIRequest
+    - APIRequest.jsx
+  - App.css
+  - App.js
+  - Components
+    - Body.jsx
+    - Content.jsx
+    - DisplayTask.jsx
+    - Filter.jsx
+    - Model.jsx
+    - Navbar.jsx
+    - Pagination.jsx
+    - SearchBar.jsx
+    - ShowTaskDetails.jsx
+    - ShowToast.jsx
+    - SideBar.jsx
+    - TableInput.jsx
+    - TaskDisplayWithPagination.jsx
+    - ToggleButton.jsx
+  - ContextApi
+    - ContextApi.jsx
+  - Css
+    - Component.style
+      - Body.css
+      - Content.css
+      - DisplayTask.css
+      - Filter.css
+      - Model.css
+      - Navbar.css
+      - SearchBar.css
+      - ShowTaskDetails.css
+      - ShowToast.css
+      - SideBar.css
+      - TaskDisplayWithPagination.css
+      - ToggleButton.css
+      - pagination.css
+    - Pages.style
+      - AllTasks.css
+      - Login.css
+      - Today.css
+      - Upcoming.css
+  - Pages
+    - AllTasks.jsx
+    - Login.jsx
+    - Today.jsx
+    - Upcoming.jsx
+  - assets
+    - login_image.webp
+  - index.css
+  - index.js
+  - utils
+    - config.js

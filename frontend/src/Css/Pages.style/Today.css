@@ -1,0 +1,70 @@
+.today_container {
+    height: 100%;
+    padding: 4% 6%;
+    width: 80%;
+    transition: .3s all ease-in-out;
+}
+
+.today_container_after {
+    height: 100%;
+    padding: 4% 6%;
+    width: 60%;
+    transition: .3s all ease-in-out;
+}
+
+
+.today_search_filter_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.filter_icon_today {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    height: 100%;
+}
+
+
+.today_canvas_body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.canvas_body_item {
+    border: none;
+    outline: none;
+    height: 4vh;
+    padding: 0 5px;
+    border-radius: 2px;
+    font-size: 14px;
+    width: 80% !important;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-radius: 3px;
+
+}
+
+#filter_icon_today{
+    width: 50px !important;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .3s all ease-in-out;
+}
+#filter_icon_today_active{
+    background-color: #EEEEEE;
+    width: 50px !important;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;align-items: center;
+    justify-content: center;
+    transition: .3s all ease-in-out;
+}
+

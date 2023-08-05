@@ -1,0 +1,206 @@
+<---------- DOCKER --------->
+
+**************FRONTEND******************
+
+
+Dockerfile
+----------
+
+FROM node:latest
+WORKDIR /app
+COPY package.json ./
+RUN npm install -f
+COPY . .
+CMD ["npm","start"]
+
+
+.dockerignore
+-------------
+
+/node_modules
+/DockerFile
+.git 
+
+
+Required commands
+-----------------
+
+docker -v
+
+(1) Build image
+**************
+
+docker build -t docker-react:latest .  // [ -t => tag ] [  . is the path of the Dockerfile  ]
+                -----|------ ---|---
+                     |          |---> version
+                     |
+                     |----------->  image name    
+
+docker images // to see images
+
+docker run --name docker-container -d -p 3000:3000 docker-react:latest
+// [ --name => indicate the name of the container ( docker-container ) ]
+// [ -d => detach,  this container will keep running even if we move to a different terminal ]
+// [ -p => port ]
+// [ 3000:3000 ]
+     -|-    |-> port in which output will be shown
+      |
+      |-------> port of the container 
+// [ docker-react:latest => image name alonge with tag ]
+
+
+(2) Pushing image to the dockerhub
+**********************************
+
+ docker login
+
+ docker tag docker-react jayvishnu07/docker-react 
+            ------|----- -----------|------------
+                  |                 |------------> alias name, which will be show in the dockerhub repository 
+                  |
+                  |------------------------------> image name, which your're going to push 
+
+docker push jayvishnu07/docker-react 
+
+(3) Remove image 
+*****************
+
+docker rmi docker-react:latest
+
+(3) Stop the container 
+**********************
+
+docker exec <container-id> stop
+
+
+**************BACKEND******************
+
+./mvnw clean package -Dskiptests
+
+
+docker-compose.yml
+------------------
+
+version: '3.1'
+services:
+  app:
+    container_name: springnative
+    image: springnative
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pg
+  pg:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=jaivishnu
+      - POSTGRES_USER=jaivishnu
+      - POSTGRES_DB=crudapplication
+
+
+Dockerfile
+----------
+
+FROM openjdk:8-jdk-alpine
+ADD target/crudApplication-0.0.1-SNAPSHOT.jar  app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
+
+
+
+//docker compose up
+
+
+
+***************************************************BACKEND*******************************************************************
+
+1) docker pull postgres
+
+2) docker run -d -p 6000:5432 -e POSTGRES_PASSWORD=jaivishnu -e POSTGRES_USER=jaivishnu -e POSTGRES_DB=crudapplication --name=postgres_container postgres
+
+3) docker ps //to see the running container 
+
+4) docker ps -a //to see all the running container [containers in running state and not running state]
+
+5) docker inspect container_name //here <postgres_container> // can see the ip name and many more details 
+
+6) ./mvnw clean package -Dskiptests || "mvn clean install"
+
+7)
+Dockerfile
+----------
+
+FROM openjdk:17-oracle
+COPY target/*.jar  crudapplication.jar
+EXPOSE 8080 
+ENTRYPOINT ["java","-jar","crudapplication.jar"]
+
+8) docker build -t crudapplication_image .
+
+9) docker run -d -p 8080:8080 --name=crudapplication_container crudapplication_image
+
+10) docker ps // check wheather the container is running or not.
+
+11) docker logs crudApplication_container //to see the spring boot related logs 
+
+
+
+
+
+MANUALLY:
+
+apt-get update
+apt-get install -y nodejs
+node -v
+apt-get install -y npm
+npm -v
+npm i 
+npm cache clean --force
+npm cache clean --force
+npm install -g npm@latest
+npm install -g npm@7.24.2
+clear
+history
+
+
+HTTPS=true SSL_CRT_FILE=./ssl/localhost.pem SSL_KEY_FILE=./ssl/localhost-key.pem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Stage 1: Build the React application
+FROM node:latest as builder
+
+
+COPY package.json package-lock.json ./
+RUN npm install -f
+
+COPY . .
+
+RUN npm run build
+
+# Stage 2: Create the final nginx image
+FROM nginx:latest
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=builder /build ./usr/share/nginx/html
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
