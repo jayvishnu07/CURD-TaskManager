@@ -34,7 +34,7 @@ const TaskContextProvider = ({ children }) => {
         setUserName(() => {
             return localStorage.getItem('userName') || ""
         })
-    }, [])
+    })
 
     return (
         <taskContext.Provider
@@ -63,7 +63,7 @@ const TaskContextProvider = ({ children }) => {
                 setCurrentUrl,
                 showAddTask,
                 setShowAddTask,
-                userName, setUserName
+                userName, setUserName,
             }}>{children}</taskContext.Provider>
     )
 }

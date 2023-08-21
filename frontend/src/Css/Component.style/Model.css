@@ -15,7 +15,7 @@
 .confirmation_content {
     background-color: #FFFFFF;
     width: 30vw;
-    height: 20vh;
+    min-height: 20vh;
     padding: 20px;
     border-radius: 5px;
     text-align: center;

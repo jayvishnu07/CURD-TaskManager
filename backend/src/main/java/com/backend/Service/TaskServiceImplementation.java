@@ -20,9 +20,8 @@ public class TaskServiceImplementation implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
     private final SuccessHandler successHandler;
-
     @Autowired
-    public TaskServiceImplementation(SuccessHandler successHandler)   {
+    public TaskServiceImplementation(SuccessHandler successHandler) {
         this.successHandler = successHandler;
     }
 
@@ -149,8 +148,8 @@ public class TaskServiceImplementation implements TaskService {
             }
         }
         if (assignedBy != null && !assignedBy.equals("") && assignedTo != null && !assignedTo.equals("")) {
-            task = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59",assignedBy, assignedTo, pageable);
-            count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59",assignedBy, assignedTo).size();
+            task = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59", assignedBy, assignedTo, pageable);
+            count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59", assignedBy, assignedTo).size();
         } else if (assignedBy != null && !assignedBy.equals("")) {
             task = taskRepository.findByAssignedDateAfterAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59", assignedBy, pageable);
             count = taskRepository.findByAssignedDateAfterAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59", assignedBy).size();
@@ -158,8 +157,6 @@ public class TaskServiceImplementation implements TaskService {
             task = taskRepository.findByAssignedDateAfterAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59", assignedTo, pageable);
             count = taskRepository.findByAssignedDateAfterAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedDate + " 23:59:59", assignedTo).size();
         }
-
-        System.out.println("done in in "+ task);
 
         return successHandler.successMessageHandler("Task retrieved successfully", task, count);
     }
@@ -180,8 +177,9 @@ public class TaskServiceImplementation implements TaskService {
         count = taskRepository.findByDueAfter(due + " 23:59:59").size();
         return successHandler.successMessageHandler("Task retrieved successfully", task);
     }
+
     @Override
-    public ResponseEntity<Object> getTaskByAssignedDateEndAfter(String due,String assignedBy, String assignedTo, Integer page, Integer pageSize) {
+    public ResponseEntity<Object> getTaskByAssignedDateEndAfter(String due, String assignedBy, String assignedTo, Integer page, Integer pageSize) {
         Pageable pageable = null;
         int count = 0;
         if (page != null) {
@@ -201,8 +199,8 @@ public class TaskServiceImplementation implements TaskService {
             }
         }
         if (assignedBy != null && !assignedBy.equals("") && assignedTo != null && !assignedTo.equals("")) {
-            task = taskRepository.findByDueAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59",assignedBy, assignedTo, pageable);
-            count = taskRepository.findByDueAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59",assignedBy, assignedTo).size();
+            task = taskRepository.findByDueAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedBy, assignedTo, pageable);
+            count = taskRepository.findByDueAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedBy, assignedTo).size();
         } else if (assignedBy != null && !assignedBy.equals("")) {
             task = taskRepository.findByDueAfterAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedBy, pageable);
             count = taskRepository.findByDueAfterAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedBy).size();
@@ -211,7 +209,7 @@ public class TaskServiceImplementation implements TaskService {
             count = taskRepository.findByDueAfterAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedTo).size();
         }
 
-        return successHandler.successMessageHandler("Task retrieved successfully", task,count);
+        return successHandler.successMessageHandler("Task retrieved successfully", task, count);
     }
 
     @Override
@@ -276,7 +274,7 @@ public class TaskServiceImplementation implements TaskService {
         String startingDate = "";
         String endingDate = "";
 
-        if (assignedDates!= null && !assignedDates.isEmpty()) {
+        if (assignedDates != null && !assignedDates.isEmpty()) {
             try {
                 LocalDate.parse(assignedDates, formatter1);
             } catch (DateTimeParseException e) {
@@ -293,70 +291,33 @@ public class TaskServiceImplementation implements TaskService {
         }
 
 
-        System.out.println("assignedDates "+assignedDates);
-        System.out.println("assignedBy "+assignedBy);
-        System.out.println("assignedTo "+assignedTo);
-
         if (!startingDate.isEmpty() && assignedBy != null && assignedTo != null && !assignedBy.equals("") && !assignedTo.equals("")) {
             tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo, pageable);
-            System.out.println("1");
             count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo).size();
         } else if (!startingDate.isEmpty() && assignedBy != null && !assignedBy.isEmpty()) {
             tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, pageable);
-            System.out.println("2");
-
             count = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy).size();
         } else if (!startingDate.isEmpty() && assignedTo != null && !assignedTo.equals("")) {
             count = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo).size();
-            System.out.println("3");
             tasks = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo, pageable);
         } else if (assignedTo != null && !assignedTo.equals("") && assignedBy != null && !assignedBy.equals("")) {
             count = taskRepository.findByAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedBy, assignedTo).size();
-            System.out.println("4");
             tasks = taskRepository.findByAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedBy, assignedTo, pageable);
         } else if (!startingDate.isEmpty()) {
             tasks = taskRepository.findByAssignedDateBetweenOrderByTaskIdDesc(startingDate, endingDate, pageable);
-            System.out.println("5");
             count = taskRepository.findByAssignedDateBetweenOrderByTaskIdDesc(startingDate, endingDate).size();
         } else if (assignedBy != null && !assignedBy.equals("")) {
             tasks = taskRepository.findByAssignedByAllIgnoreCaseOrderByTaskIdDesc(assignedBy, pageable);
-            System.out.println("6");
             count = taskRepository.findByAssignedByAllIgnoreCaseOrderByTaskIdDesc(assignedBy).size();
         } else if (assignedTo != null && !assignedTo.equals("")) {
             tasks = taskRepository.findByAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedTo, pageable);
-            System.out.println("7");
             count = taskRepository.findByAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedTo).size();
         } else {
             tasks = taskRepository.findAllByOrderByTaskIdDesc(pageable);
-            System.out.println("8");
             count = taskRepository.findAllByOrderByTaskIdDesc().size();
         }
-
-//        if(assignedTo !=null && !assignedTo.equals("") ){
-//            if( assignedDates!= null && !assignedDates.isEmpty() && assignedBy!=null  && !assignedBy.equals("")){
-//                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo, pageable);
-//                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo).size();
-//
-//            }else if( assignedDates!= null && !assignedDates.isEmpty() ){
-//                tasks = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo, pageable);
-//                count = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo).size();
-//
-//            }else if( assignedBy!=null  && !assignedBy.equals("")){
-//                LocalDate today = LocalDate.now();
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//                String formattedDate = today.format(formatter);
-//                tasks = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc( formattedDate+" 23:59:59", assignedBy,assignedTo, pageable);
-//                count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate+" 23:59:59", assignedBy,assignedTo).size();
-//            }
-//        }else if(assignedBy !=null && !assignedBy.equals("")){
-//            if( assignedDates!= null && !assignedDates.isEmpty() ){
-//                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy, pageable);
-//                count = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy).size();
-//            }
-//        }
         return successHandler.successMessageHandler("Tasks retrieved successfully.", tasks, count);
     }
-
 
 
     @Override
@@ -372,7 +333,7 @@ public class TaskServiceImplementation implements TaskService {
         String startingDate = "";
         String endingDate = "";
 
-        if (assignedDates!= null && !assignedDates.isEmpty()) {
+        if (assignedDates != null && !assignedDates.isEmpty()) {
             try {
                 LocalDate.parse(assignedDates, formatter1);
             } catch (DateTimeParseException e) {
@@ -388,53 +349,26 @@ public class TaskServiceImplementation implements TaskService {
             }
         }
 
-//        if (!startingDate.isEmpty() && assignedBy != null && assignedTo != null && !assignedBy.equals("") && !assignedTo.equals("")) {
-//            tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo, pageable);
-//            System.out.println("working here "+tasks);
-//            count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo).size();
-//        } else if (!startingDate.isEmpty() && assignedBy != null && !assignedBy.isEmpty()) {
-//            tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, pageable);
-//            count = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy).size();
-//        } else if (!startingDate.isEmpty() && assignedTo != null && !assignedTo.equals("")) {
-//            count = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo).size();
-//            tasks = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo, pageable);
-//        } else if (!startingDate.isEmpty() && assignedBy != null && !assignedBy.equals("")) {
-//            count = taskRepository.findByAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedBy, assignedTo).size();
-//            tasks = taskRepository.findByAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedBy, assignedTo, pageable);
-//        } else if (!startingDate.isEmpty()) {
-//            tasks = taskRepository.findByAssignedDateBetweenOrderByTaskIdDesc(startingDate, endingDate, pageable);
-//            count = taskRepository.findByAssignedDateBetweenOrderByTaskIdDesc(startingDate, endingDate).size();
-//        } else if (assignedBy != null && !assignedBy.equals("")) {
-//            tasks = taskRepository.findByAssignedByAllIgnoreCaseOrderByTaskIdDesc(assignedBy, pageable);
-//            count = taskRepository.findByAssignedByAllIgnoreCaseOrderByTaskIdDesc(assignedBy).size();
-//        } else if (assignedTo != null && !assignedTo.equals("")) {
-//            tasks = taskRepository.findByAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedTo, pageable);
-//            count = taskRepository.findByAssignedToAllIgnoreCaseOrderByTaskIdDesc(assignedTo).size();
-//        } else {
-//            tasks = taskRepository.findAllByOrderByTaskIdDesc(pageable);
-//            count = taskRepository.findAllByOrderByTaskIdDesc().size();
-//        }
+        if (assignedTo != null && !assignedTo.equals("")) {
+            if (assignedDates != null && !assignedDates.isEmpty() && assignedBy != null && !assignedBy.equals("")) {
+                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo).size();
 
-        if(assignedTo !=null && !assignedTo.equals("") ){
-            if( assignedDates!= null && !assignedDates.isEmpty() && assignedBy!=null  && !assignedBy.equals("")){
-                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo).size();
+            } else if (assignedDates != null && !assignedDates.isEmpty()) {
+                tasks = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo).size();
 
-            }else if( assignedDates!= null && !assignedDates.isEmpty() ){
-                tasks = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo).size();
-
-            }else if( assignedBy!=null  && !assignedBy.equals("")){
+            } else if (assignedBy != null && !assignedBy.equals("")) {
                 LocalDate today = LocalDate.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String formattedDate = today.format(formatter);
-                tasks = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc( formattedDate+" 23:59:59", assignedBy,assignedTo, pageable);
-                count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate+" 23:59:59", assignedBy,assignedTo).size();
+                tasks = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate + " 23:59:59", assignedBy, assignedTo, pageable);
+                count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate + " 23:59:59", assignedBy, assignedTo).size();
             }
-        }else if(assignedBy !=null && !assignedBy.equals("")){
-            if( assignedDates!= null && !assignedDates.isEmpty() ){
-                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy).size();
+        } else if (assignedBy != null && !assignedBy.equals("")) {
+            if (assignedDates != null && !assignedDates.isEmpty()) {
+                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy).size();
             }
         }
         return successHandler.successMessageHandler("Tasks retrieved successfully.", tasks, count);
@@ -442,7 +376,7 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     public ResponseEntity<Object> getTaskByDue(String deadline, String assignedBy, String assignedTo, Integer page, Integer pageSize) {
-        List<Task> tasks=null;
+        List<Task> tasks = null;
         Pageable pageable = null;
         if (page != null) {
             pageable = PageRequest.of(page - 1, pageSize);
@@ -488,36 +422,13 @@ public class TaskServiceImplementation implements TaskService {
             tasks = taskRepository.findAllByOrderByTaskIdDesc(pageable);
             count = taskRepository.findAllByOrderByTaskIdDesc().size();
         }
-
-//        if(assignedTo !=null && !assignedTo.equals("") ){
-//            if( deadline!= null && !deadline.isEmpty() && assignedBy!=null  && !assignedBy.equals("")){
-//                tasks = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo, pageable);
-//                count = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo).size();
-//
-//            }else if( deadline!= null && !deadline.isEmpty() ){
-//                tasks = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo, pageable);
-//                count = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo).size();
-//
-//            }else if( assignedBy!=null  && !assignedBy.equals("")){
-//                LocalDate today = LocalDate.now();
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//                String formattedDate = today.format(formatter);
-//                tasks = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc( formattedDate+" 23:59:59", assignedBy,assignedTo, pageable);
-//                count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate+" 23:59:59", assignedBy,assignedTo).size();
-//            }
-//        }else if(assignedBy !=null && !assignedBy.equals("")){
-//            if( deadline!= null && !deadline.isEmpty() ){
-//                tasks = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy, pageable);
-//                count = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy).size();
-//            }
-//        }
         return successHandler.successMessageHandler("Tasks retrieved successfully.", tasks, count);
     }
 
 
     @Override
     public ResponseEntity<Object> getTaskByDueV2(String deadline, String assignedBy, String assignedTo, Integer page, Integer pageSize) {
-        List<Task> tasks=null;
+        List<Task> tasks = null;
         Pageable pageable = null;
         if (page != null) {
             pageable = PageRequest.of(page - 1, pageSize);
@@ -538,52 +449,26 @@ public class TaskServiceImplementation implements TaskService {
 
         }
 
-//        if (assigned_by != null && assigned_to != null && !(assigned_by instanceof String) && !(assigned_to instanceof String)) {
-//            throw new TaskNotFoundException("Invalid Name.");
-//        }
-//        if (!modifiedDatesStart.isEmpty() && assigned_by != null && assigned_to != null && !assigned_by.equals("") && !assigned_to.equals("")) {
-//            tasks = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assigned_by, assigned_to, pageable);
-//            count = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assigned_by, assigned_to).size();
-//        } else if (!modifiedDatesStart.isEmpty() && assigned_by != null && !assigned_by.equals("")) {
-//            tasks = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assigned_by, pageable);
-//            count = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assigned_by).size();
-//        } else if (!modifiedDatesStart.isEmpty() && assigned_to != null && !assigned_to.equals("")) {
-//            tasks = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assigned_to, pageable);
-//            count = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assigned_to).size();
-//        } else if (!modifiedDatesStart.isEmpty()) {
-//            tasks = taskRepository.findByDueBetweenOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, pageable);
-//            count = taskRepository.findByDueBetweenOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd).size();
-//        } else if (assigned_by != null && !assigned_by.equals("")) {
-//            tasks = taskRepository.findByAssignedByAllIgnoreCaseOrderByTaskIdDesc(assigned_by, pageable);
-//            count = taskRepository.findByAssignedByAllIgnoreCaseOrderByTaskIdDesc(assigned_by).size();
-//        } else if (assigned_to != null && !assigned_to.equals("")) {
-//            tasks = taskRepository.findByAssignedToAllIgnoreCaseOrderByTaskIdDesc(assigned_to, pageable);
-//            count = taskRepository.findByAssignedToAllIgnoreCaseOrderByTaskIdDesc(assigned_to).size();
-//        } else {
-//            tasks = taskRepository.findAllByOrderByTaskIdDesc(pageable);
-//            count = taskRepository.findAllByOrderByTaskIdDesc().size();
-//        }
+        if (assignedTo != null && !assignedTo.equals("")) {
+            if (deadline != null && !deadline.isEmpty() && assignedBy != null && !assignedBy.equals("")) {
+                tasks = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo, pageable);
+                count = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, assignedTo).size();
 
-        if(assignedTo !=null && !assignedTo.equals("") ){
-            if( deadline!= null && !deadline.isEmpty() && assignedBy!=null  && !assignedBy.equals("")){
-                tasks = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo, pageable);
-                count = taskRepository.findByDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy,assignedTo).size();
+            } else if (deadline != null && !deadline.isEmpty()) {
+                tasks = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo, pageable);
+                count = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedTo).size();
 
-            }else if( deadline!= null && !deadline.isEmpty() ){
-                tasks = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo, pageable);
-                count = taskRepository.findByDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedTo).size();
-
-            }else if( assignedBy!=null  && !assignedBy.equals("")){
+            } else if (assignedBy != null && !assignedBy.equals("")) {
                 LocalDate today = LocalDate.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String formattedDate = today.format(formatter);
-                tasks = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc( formattedDate+" 23:59:59", assignedBy,assignedTo, pageable);
-                count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate+" 23:59:59", assignedBy,assignedTo).size();
+                tasks = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate + " 23:59:59", assignedBy, assignedTo, pageable);
+                count = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(formattedDate + " 23:59:59", assignedBy, assignedTo).size();
             }
-        }else if(assignedBy !=null && !assignedBy.equals("")){
-            if( deadline!= null && !deadline.isEmpty() ){
-                tasks = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy, pageable);
-                count = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate,endingDate, assignedBy).size();
+        } else if (assignedBy != null && !assignedBy.equals("")) {
+            if (deadline != null && !deadline.isEmpty()) {
+                tasks = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy, pageable);
+                count = taskRepository.findByDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(startingDate, endingDate, assignedBy).size();
             }
         }
         return successHandler.successMessageHandler("Tasks retrieved successfully.", tasks, count);
@@ -689,7 +574,6 @@ public class TaskServiceImplementation implements TaskService {
     public ResponseEntity<Object> updateTask(Long task_id, Task data) {
         Optional<Task> task = taskRepository.findById(task_id);
 
-        System.out.println("assignedDate" + data.getAssignedDate());
         if (task.isEmpty()) {
             throw new TaskNotFoundException("Task with id " + task_id + " not found.");
         }
@@ -703,17 +587,12 @@ public class TaskServiceImplementation implements TaskService {
             task.get().setAssignedTo(data.getAssignedTo());
         }
         if ((data.getAssignedDate() != null)
-//                &&
-//                (LocalDate.parse(data.getAssignedDate(), formatter).isAfter(LocalDate.now()))
         ) {
             task.get().setAssignedDate(data.getAssignedDate());
-            System.out.println("comming ass");
         }
         if ((data.getDue() != null)
-//                && (LocalDate.parse(data.getDue(), formatter).isAfter(LocalDate.now()))
         ) {
             task.get().setDue(data.getDue());
-            System.out.println("comming due");
         }
         if ((data.getPriority() != null) && (data.getPriority().length() > 0)) {
             task.get().setPriority(data.getPriority());
@@ -724,20 +603,11 @@ public class TaskServiceImplementation implements TaskService {
         } catch (Exception e) {
             throw new TaskNotFoundException("Invalid Status.");
         }
-
-        System.out.println("task.get() "+task.get());
-
         return successHandler.successMessageHandler("Tasks updated successfully.", List.of(taskRepository.save(task.get())));
     }
 
     @Override
     public ResponseEntity<Object> getTaskWithCreatedAndPrefixForUpcoming(String prefix, String created, String assignedBy, String assignedTo, Integer page, Integer pageSize) {
-//        System.out.println("prefix" + prefix);
-//        System.out.println("assignedDate" + created);
-//        System.out.println("assignedBy" + assignedBy);
-//        System.out.println("assignedTo" + assignedTo);
-//        System.out.println("page" + page);
-//        System.out.println("pageSize" + pageSize);
         Pageable pageable = null;
         int count = 0;
         if (page != null) {
@@ -756,12 +626,12 @@ public class TaskServiceImplementation implements TaskService {
             }
         }
         if (assignedBy != null && !assignedBy.equals("") && assignedTo != null && !assignedTo.equals("")) {
-            upcomingTask = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(created + " 23:59:59",assignedBy, assignedTo);
+            upcomingTask = taskRepository.findByAssignedDateAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(created + " 23:59:59", assignedBy, assignedTo);
         } else if (assignedBy != null && !assignedBy.equals("")) {
             upcomingTask = taskRepository.findByAssignedDateAfterAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(created + " 23:59:59", assignedBy);
         } else if (assignedTo != null && !assignedTo.equals("")) {
             upcomingTask = taskRepository.findByAssignedDateAfterAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(created + " 23:59:59", assignedTo);
-        }else{
+        } else {
             upcomingTask = taskRepository.findByAssignedDateAfterOrderByTaskIdDesc(created + " 23:59:59");
         }
 
@@ -786,13 +656,6 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     public ResponseEntity<Object> getTaskWithDueAndPrefixForUpcoming(String prefix, String due, String assignedBy, String assignedTo, Integer page, Integer pageSize) {
-//        System.out.println("prefix" + prefix);
-//        System.out.println("assignedDate" + due);
-//        System.out.println("assignedBy" + assignedBy);
-//        System.out.println("assignedTo" + assignedTo);
-//        System.out.println("page" + page);
-//        System.out.println("pageSize" + pageSize);
-
         Pageable pageable = null;
         int count = 0;
         if (page != null) {
@@ -811,7 +674,7 @@ public class TaskServiceImplementation implements TaskService {
             }
         }
         if (assignedBy != null && !assignedBy.equals("") && assignedTo != null && !assignedTo.equals("")) {
-            upcomingTask = taskRepository.findByDueAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59",assignedBy, assignedTo);
+            upcomingTask = taskRepository.findByDueAfterAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedBy, assignedTo);
         } else if (assignedBy != null && !assignedBy.equals("")) {
             upcomingTask = taskRepository.findByDueAfterAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(due + " 23:59:59", assignedBy);
         } else if (assignedTo != null && !assignedTo.equals("")) {
@@ -901,14 +764,12 @@ public class TaskServiceImplementation implements TaskService {
     public ResponseEntity<Object> getTaskByDueWithPrefix(String prefix, String deadline, String assigned_by, String assigned_to, Integer page, Integer pageSize) {
         List<Task> tasks;
         Pageable pageable = null;
-//        if (page != null) {
-            pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "taskId"));
-//        }
+        pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "taskId"));
         int count = 0;
         String modifiedDatesStart = "";
         String modifiedDatesEnd = "";
 
-        if (deadline!= null && !deadline.isEmpty()) {
+        if (deadline != null && !deadline.isEmpty()) {
 
             try {
                 LocalDate.parse(deadline, formatter1);
@@ -958,7 +819,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
-    public ResponseEntity<Object> getTodayTaskByDue(String today, String deadline, String assignedBy,String assigned_to, Integer page, Integer pageSize) {
+    public ResponseEntity<Object> getTodayTaskByDue(String today, String deadline, String assignedBy, String assigned_to, Integer page, Integer pageSize) {
         List<Task> tasks = null;
         Pageable pageable = null;
         pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "taskId"));
@@ -968,7 +829,7 @@ public class TaskServiceImplementation implements TaskService {
         String modifiedDeadlineStart = "";
         String modifiedDeadlineEnd = "";
 
-        if (today!= null && !today.isEmpty()) {
+        if (today != null && !today.isEmpty()) {
             try {
                 LocalDate.parse(today, formatter1);
             } catch (DateTimeParseException e) {
@@ -977,46 +838,41 @@ public class TaskServiceImplementation implements TaskService {
             modifiedDatesStart = today + " 00:00:00";
             modifiedDatesEnd = today + " 23:59:59";
         }
-        if (deadline!= null && !deadline.isEmpty()) {
+        if (deadline != null && !deadline.isEmpty()) {
             try {
                 LocalDate.parse(deadline, formatter1);
             } catch (DateTimeParseException e) {
                 throw new TaskNotFoundException("Invalid Deadline. Expected format: yyyy-MM-dd");
             }
-            modifiedDeadlineStart= deadline + " 00:00:00";
+            modifiedDeadlineStart = deadline + " 00:00:00";
             modifiedDeadlineEnd = deadline + " 23:59:59";
         }
 
-        if(assigned_to !=null && !assigned_to.equals("") && today!= null && !today.isEmpty()){
-            if( deadline!= null && !deadline.isEmpty() && assignedBy!=null  && !assignedBy.equals("")){
-                tasks = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, modifiedDeadlineStart,modifiedDeadlineEnd, assignedBy,assigned_to, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, modifiedDeadlineStart,modifiedDeadlineEnd, assignedBy,assigned_to).size();
+        if (assigned_to != null && !assigned_to.equals("") && today != null && !today.isEmpty()) {
+            if (deadline != null && !deadline.isEmpty() && assignedBy != null && !assignedBy.equals("")) {
+                tasks = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, modifiedDeadlineStart, modifiedDeadlineEnd, assignedBy, assigned_to, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, modifiedDeadlineStart, modifiedDeadlineEnd, assignedBy, assigned_to).size();
 
-            }else if(assignedBy!=null  && !assignedBy.equals("")){
-                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, assignedBy,assigned_to, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, assignedBy,assigned_to).size();
+            } else if (assignedBy != null && !assignedBy.equals("")) {
+                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assignedBy, assigned_to, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assignedBy, assigned_to).size();
 
-            }else if( deadline!= null && !deadline.isEmpty()){
-                tasks = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, modifiedDeadlineStart,modifiedDeadlineEnd,assigned_to, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, modifiedDeadlineStart,modifiedDeadlineEnd,assigned_to).size();
+            } else if (deadline != null && !deadline.isEmpty()) {
+                tasks = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, modifiedDeadlineStart, modifiedDeadlineEnd, assigned_to, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, modifiedDeadlineStart, modifiedDeadlineEnd, assigned_to).size();
 
             }
 
-        }else if(assignedBy !=null && !assignedBy.equals("") && today!= null && !today.isEmpty()){
-            if(assigned_to!=null  && !assigned_to.equals("")){
-                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, assignedBy,assigned_to, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, assignedBy,assigned_to).size();
-            }else if( deadline!= null && !deadline.isEmpty()){
-                tasks = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd, modifiedDeadlineStart,modifiedDeadlineEnd,assignedBy, pageable);
-                count = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart,modifiedDatesEnd,modifiedDeadlineStart,modifiedDeadlineEnd,assignedBy).size();
+        } else if (assignedBy != null && !assignedBy.equals("") && today != null && !today.isEmpty()) {
+            if (assigned_to != null && !assigned_to.equals("")) {
+                tasks = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assignedBy, assigned_to, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndAssignedByAndAssignedToAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, assignedBy, assigned_to).size();
+            } else if (deadline != null && !deadline.isEmpty()) {
+                tasks = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, modifiedDeadlineStart, modifiedDeadlineEnd, assignedBy, pageable);
+                count = taskRepository.findByAssignedDateBetweenAndDueBetweenAndAssignedByAllIgnoreCaseOrderByTaskIdDesc(modifiedDatesStart, modifiedDatesEnd, modifiedDeadlineStart, modifiedDeadlineEnd, assignedBy).size();
             }
         }
-        System.out.println("!!!!! "+tasks);
-
         return successHandler.successMessageHandler("Task retrieved successfully", tasks, count);
     }
 
-
 }
-
-

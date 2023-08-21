@@ -1,6 +1,5 @@
 
 //libraries
-import { toast } from 'react-toastify';
 
 //style sheets
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const ShowToast = ({ message, type }) => {
   const toastOptions = {
     position: 'top-right',
-    autoClose: 1500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

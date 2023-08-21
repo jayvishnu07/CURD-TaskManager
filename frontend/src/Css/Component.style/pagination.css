@@ -22,7 +22,11 @@ nav::-webkit-scrollbar {
     border-radius: 5px;
     color: #8D8B8B !important;
     width: 35px;
-
+}
+#inside_number{
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 
@@ -33,4 +37,5 @@ nav::-webkit-scrollbar {
     border: 1px solid #DBDCDC;
     border-radius: 5px;
     width: 35px;
+
 }

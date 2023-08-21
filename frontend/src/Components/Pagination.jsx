@@ -1,7 +1,7 @@
 import React from 'react';
 
 //style sheets
-import '../Css/Component.style/pagination.css'
+import '../Css/Component.style/pagination.css';
 
 //custom components
 import { ContextState } from '../ContextApi/ContextApi';
@@ -23,7 +23,7 @@ const Pagination = ({ tasksPerPage, totalTasks, setCurrentPage, currentPage }) =
       <ul className={showTaskDetails ? 'pagination' : "pagination"}>
         {pageNumbers.map(number => (
           <li key={number} className={number === currentPage ? 'page_item active' : 'page_item'} onClick={() => { paginate(number); }} id='pointer'>
-            <span href='!#' >
+            <span href='!#' id='inside_number' >
               {number}
             </span>
           </li>

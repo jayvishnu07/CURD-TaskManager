@@ -66,6 +66,9 @@ public interface TaskService {
 
     ResponseEntity<Object> getTaskByDueV2(String deadline, String assignedBy, String assignedTo, Integer page, Integer pageSize);
 
+
+//    void sendOTPToEmail(String mail);
+
 //    ResponseEntity<Object> getTaskWithCreatedAndForUpcoming(String assignedDate, String assignedBy, String assignedTo, Integer page, Integer pageSize);
 //
 //    ResponseEntity<Object> getTaskWithDueAndForUpcoming(String due, String assignedBy, String assignedTo, Integer page, Integer pageSize);

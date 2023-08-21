@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 
 //libraries
-import { Button, Offcanvas } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import moment from 'moment-timezone';
+import { Button, Offcanvas } from "react-bootstrap";
 import DatePicker from "react-datepicker";
+import { Link } from "react-router-dom";
 
 //style sheets
-import "../Css/Component.style/Navbar.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "../Css/Component.style/Navbar.css";
 
 //custom components
-import { ContextState } from "../ContextApi/ContextApi";
-import ShowToast from '../Components/ShowToast';
 import { makePutAndPostRequest } from "../APIRequest/APIRequest";
+import ShowToast from '../Components/ShowToast';
+import { ContextState } from "../ContextApi/ContextApi";
 import { API_VERSION_V2 } from "../utils/config";
 
 //react icons
-import { SlMenu } from "react-icons/sl";
-import { AiOutlineHome } from "react-icons/ai";
-import { IoMdAdd, IoIosNotificationsOutline } from "react-icons/io";
-import { CgProfile } from "react-icons/cg";
-import { AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineLogout } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { IoIosNotificationsOutline, IoMdAdd } from "react-icons/io";
+import { SlMenu } from "react-icons/sl";
+import { keycloak } from "../App";
 
 
 const Navbar = () => {
@@ -184,7 +184,7 @@ const Navbar = () => {
           <CgProfile className="nav_icon " size={25} id="pointer" onClick={() => { }} />
           <div className="profile_div">
             <span className="profile_item" ><BsFillPersonFill size={20} color="#2463F5" /> <span className="text" > {userName}</span> </span>
-            <span className="profile_item" onClick={() => { localStorage.clear(); setUserName('') }}  ><AiOutlineLogout color="#F74036" size={20} /> Logout </span>
+            <span className="profile_item" onClick={() => { setUserName(''); localStorage.clear(); keycloak.logout(); }}  ><AiOutlineLogout color="#F74036" size={20} /> Logout </span>
           </div>
         </div>
       </div>
@@ -196,3 +196,8 @@ export default Navbar;
 
 
   // Specific Time Range
+
+
+  // 551492596926-2h4rq6jlkusrso2bn2smujpvfjbunid6.apps.googleusercontent.com
+
+  // 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

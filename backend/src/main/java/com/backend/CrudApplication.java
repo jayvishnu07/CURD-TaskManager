@@ -1,12 +1,8 @@
 package com.backend;
 
-import com.backend.Entity.Task;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -20,6 +16,8 @@ public class CrudApplication {
 	}
 
 	public static void main(String[] args)  {
+//		System.setProperty("javax.net.ssl.trustStore", "none");
 		SpringApplication.run(CrudApplication.class, args);
 	}
+
 }

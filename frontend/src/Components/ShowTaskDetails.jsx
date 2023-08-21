@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 //libraries
 import moment from 'moment-timezone';
@@ -6,12 +6,12 @@ import { Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 
 //style sheets
-import '../Css/Component.style/ShowTaskDetails.css'
 import "react-datepicker/dist/react-datepicker.css";
+import '../Css/Component.style/ShowTaskDetails.css';
 
 //custom components
-import { ContextState } from "../ContextApi/ContextApi";
 import { makePutAndPostRequest } from '../APIRequest/APIRequest';
+import { ContextState } from "../ContextApi/ContextApi";
 import { API_VERSION_V1 } from '../utils/config';
 import TableInput from './TableInput';
 
@@ -20,9 +20,9 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiTask } from "react-icons/bi";
 import { BsCalendar2Date, BsPersonFill } from "react-icons/bs";
 import { FcHighPriority, FcLowPriority, FcMediumPriority } from "react-icons/fc";
+import { FiEdit3 } from "react-icons/fi";
 import { GrStatusGood } from "react-icons/gr";
 import { ImCheckmark } from "react-icons/im";
-import { FiEdit3 } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 
 
@@ -177,7 +177,7 @@ const ShowTaskDetails = () => {
                 </TableInput>
             }
 
-            <TableInput data={selectedTask.assignedBy} editMode={editMode}>
+            <TableInput data={selectedTask.priority} editMode={editMode}>
               {selectedTask.priority === 'high' ? <FcHighPriority /> : selectedTask.priority === 'medium' ? <FcMediumPriority /> : <FcLowPriority />}Priority
               {
                 editMode

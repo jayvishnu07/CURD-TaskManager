@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 //libraries
 import { Link } from 'react-router-dom';
 
 //style sheets
-import '../Css/Component.style/SideBar.css'
+import '../Css/Component.style/SideBar.css';
 
 //custom components
 import { ContextState } from '../ContextApi/ContextApi';
@@ -30,6 +30,7 @@ const SideBar = () => {
         <Link to='/' className={currentUrl === '/' ? ' sidebar_item_link active_sidebar' : 'sidebar_item_link'} ><button className="sidebar_item" id='pointer' onClick={handleSidebarNavigation} > <CiInboxIn size={20} fontWeight={900} color='blue' /> All task </button></Link>
         <Link to='/today' className={currentUrl === '/today' ? ' sidebar_item_link active_sidebar' : 'sidebar_item_link'} ><button className="sidebar_item" id='pointer' onClick={handleSidebarNavigation}> <MdCalendarToday size={20} color='green' /> Today </button></Link>
         <Link to='/upcoming' className={currentUrl === '/upcoming' ? ' sidebar_item_link active_sidebar' : 'sidebar_item_link'}><button className="sidebar_item" id='pointer' onClick={handleSidebarNavigation}><MdOutlineUpcoming size={20} color='violet' /> Upcoming </button></Link>
+
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 package com.backend.SuccessMessage;
 
 import com.backend.Entity.Task;
+import com.backend.Entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,17 +13,16 @@ import java.util.List;
 @Getter
 @Component
 @NoArgsConstructor
-public class SuccessMessage {
-    private String message;
-    private HttpStatus httpStatus;
-    private List<Task> data=null;
-    private int count=0;
+public class SuccessMessageForUser {
 
-    public SuccessMessage(String message, HttpStatus httpStatus, int count) {
+    private String message;
+    private Users users;
+    private HttpStatus httpStatus;
+    private int otpValue;
+
+    public SuccessMessageForUser(String message, HttpStatus httpStatus, int otpValue) {
         this.message = message;
         this.httpStatus = httpStatus;
-        this.count = count;
+        this.otpValue = otpValue;
     }
 }
-
-
