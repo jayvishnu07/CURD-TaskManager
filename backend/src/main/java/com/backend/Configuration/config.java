@@ -30,7 +30,8 @@ public class config {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        String jwkSetUri = "http://localhost:8080/realms/keycloak/protocol/openid-connect/certs";
+//        String jwkSetUri = "http://localhost:8080/realms/keycloak/protocol/openid-connect/certs";
+        String jwkSetUri = "https://localhost:8443/realms/oauth_demo/protocol/openid-connect/certs";
 
         NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(jwkSetUri)
                 .jwsAlgorithm(SignatureAlgorithm.RS256)  // Use the appropriate JWS algorithm

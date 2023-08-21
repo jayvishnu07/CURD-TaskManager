@@ -10,7 +10,7 @@ export const makeGetRequest = (url, setTask, setCount) => {
     url,
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${keycloak.idToken}`,
+      Authorization: `Bearer ${keycloak.token}`,
     },
   })
     .then((res) => { setTask(res?.data?.data); setCount(res?.data?.count); })
@@ -25,7 +25,7 @@ export const makeDeleteRequest = (url, setRecentEditHappen, setShowDeleteModel) 
     url,
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${keycloak.idToken}`,
+      Authorization: `Bearer ${keycloak.token}`,
     },
   })
     .then((res) => { setRecentEditHappen((prev) => !prev); setShowDeleteModel(false); ShowToast({ message: res?.data?.message, type: 'success' }); })
@@ -40,7 +40,7 @@ export const makePutAndPostRequest = (method, url, data, callbacks) => {
     method,
     data,
     headers: {
-      Authorization: `Bearer ${keycloak.idToken}`,
+      Authorization: `Bearer ${keycloak.token}`,
     },
   })
     .then((res) => {

@@ -11,13 +11,14 @@ export const keycloak = new Keycloak({
   url: 'https://localhost:8443',
   realm: 'oauth_demo',
   clientId: 'client_id',
+  scope: "openid profile email"
 });
 
 
 try {
   const authenticated = await keycloak.init({ onLoad: 'login-required', checkLoginIframe: false });
   console.log(`User is ${authenticated ? 'authenticated' : 'not authenticated'}`);
-  console.log(`User token ${keycloak.idToken}`);
+  console.log({ keycloak });
 } catch (error) {
   console.error('Failed to initialize adapter:', error);
 }
@@ -39,6 +40,7 @@ const App = () => {
     }
   };
 
+  getUserName(keycloak.token)
 
   return (
     <div className="App">
